@@ -1,23 +1,19 @@
+import type {
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
+	RESTPostAPIContextMenuApplicationCommandsJSONBody,
+} from 'discord.js';
 import {
+	ApplicationIntegrationType,
 	SlashCommandBuilder as DiscordJSSlashCommandBuilder,
-	ModalBuilder as DiscordJSModalBuilder,
 	SlashCommandSubcommandBuilder,
 	ContextMenuCommandBuilder as DiscordJSContextMenuCommandBuilder,
 	InteractionContextType,
 } from 'discord.js';
 import type {
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-	RESTPostAPIContextMenuApplicationCommandsJSONBody,
-	Client as DiscordClient,
-	Interaction,
-	ModalSubmitInteraction,
-} from 'discord.js';
-import type {
 	SlashCommand,
-	ModalId,
 	SlashSubcommand,
 	ContextMenuCommand,
-} from '../model';
+} from '../../model';
 
 export class SlashCommandBuilder extends DiscordJSSlashCommandBuilder {
 	canBeUsedAnywhere() {
@@ -38,7 +34,17 @@ export class SlashCommandBuilder extends DiscordJSSlashCommandBuilder {
 	}
 }
 
-export class ContextMenuCommandBuilder extends DiscordJSContextMenuCommandBuilder {}
+export class ContextMenuCommandBuilder extends DiscordJSContextMenuCommandBuilder {
+	// eslint-disable-next-line sonarjs/no-identical-functions
+	canBeUsedAnywhere() {
+		this.setContexts([
+			InteractionContextType.Guild,
+			InteractionContextType.BotDM,
+			InteractionContextType.PrivateChannel,
+		]);
+		return this;
+	}
+}
 
 export const getSlashCommandRESTPostAPIData = (
 	command: SlashCommand
@@ -85,36 +91,4 @@ export const getContextMenuCommandRESTPostAPIData = (
 	);
 
 	return builder.toJSON();
-};
-
-export const modalId = (id: ModalId<string>) => JSON.stringify(id, null, 0);
-
-export class ModalBuilder extends DiscordJSModalBuilder {
-	setCustomId<M extends ModalId<string>>(customId: M | string): this {
-		const id = typeof customId === 'string' ? customId : modalId(customId);
-		return super.setCustomId(id);
-	}
-}
-
-export const waitForModalSubmit = async (
-	client: DiscordClient,
-	id: ModalId<string> | string
-): Promise<ModalSubmitInteraction> => {
-	return new Promise((resolve) => {
-		const modalCustomId = typeof id === 'string' ? id : modalId(id);
-
-		function handler(interaction: Interaction) {
-			if (
-				!interaction.isModalSubmit() ||
-				interaction.customId !== modalCustomId
-			) {
-				return;
-			}
-
-			client.removeListener('interactionCreate', handler);
-			resolve(interaction);
-		}
-
-		client.addListener('interactionCreate', handler);
-	});
 };
