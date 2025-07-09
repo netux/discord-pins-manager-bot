@@ -1,0 +1,37 @@
+{
+	"$schema": "https://json.schemastore.org/package.json",
+	"name": "pins-manager",
+	"version": "0.1.0",
+	"private": true,
+	"main": "dist/src/index.js",
+	"engines": {
+		"node": ">= 20",
+		"npm": ">= 10"
+	},
+	"scripts": {
+		"build": "tsc",
+		"lint": "tsc --noEmit && prettier --check . && eslint --ext .ts --format=pretty src",
+		"deploy-commands": "node --require dotenv/config --require @swc-node/register src/bin/deploy-commands.ts",
+		"format": "prettier --write . && eslint --ext .ts --fix --format=pretty src",
+		"start": "node --require dotenv/config dist/src/index.js",
+		"dev": "nodemon --require dotenv/config --require @swc-node/register --watch \"src/**\" --exec 'node' src/index.ts"
+	},
+	"dependencies": {
+		"@discordjs/core": "^2.0.0",
+		"@discordjs/formatters": "^0.5.0",
+		"discord.js": "^14.16.2",
+		"dotenv": "^16.4.5"
+	},
+	"devDependencies": {
+		"@swc-node/register": "^1.10.9",
+		"@swc/cli": "^0.4.1-nightly.20240914",
+		"@swc/core": "^1.7.26",
+		"@types/node": "^18.19.45",
+		"eslint": "^8.57.0",
+		"eslint-config-neon": "^0.1.62",
+		"eslint-formatter-pretty": "^6.0.1",
+		"nodemon": "^3.1.4",
+		"prettier": "^3.3.3",
+		"typescript": "~5.5.4"
+	}
+}

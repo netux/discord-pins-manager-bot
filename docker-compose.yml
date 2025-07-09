@@ -1,0 +1,7 @@
+services:
+  bot:
+    image: discord_bot_pins_manager
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env

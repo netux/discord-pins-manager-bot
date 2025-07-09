@@ -1,0 +1,39 @@
+{
+	"$schema": "https://json.schemastore.org/eslintrc.json",
+	"root": true,
+	"extends": [
+		"neon/common",
+		"neon/node",
+		"neon/typescript",
+		"neon/prettier"
+	],
+	"parserOptions": {
+		"project": [
+			"./tsconfig.eslint.json"
+		]
+	},
+	"ignorePatterns": [
+		"**/dist/*",
+		"**/node_modules/*"
+	],
+	"rules": {
+		"eqeqeq": [
+			"error",
+			"always",
+			{
+				"null": "ignore"
+			}
+		],
+		"no-eq-null": "off",
+		"import/extensions": 0,
+		"promise/prefer-await-to-then": "warn",
+		"@typescript-eslint/no-floating-promises": "error",
+		"@typescript-eslint/explicit-member-accessibility": "off",
+		"@typescript-eslint/unified-signatures": [
+			"error",
+			{
+				"ignoreDifferentlyNamedParameters": true
+			}
+		]
+	}
+}
