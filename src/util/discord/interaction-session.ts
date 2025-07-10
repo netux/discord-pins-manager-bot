@@ -102,7 +102,10 @@ export class InteractionMenuSession {
 
 		const replyPayload = {
 			...renderPayload,
-			components: [this.#currentRerenderActionRow],
+			components:
+				this.#currentRerenderActionRow.components.length > 0
+					? [this.#currentRerenderActionRow]
+					: [],
 		};
 
 		if (this.interaction.replied) {
