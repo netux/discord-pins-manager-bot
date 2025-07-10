@@ -78,6 +78,12 @@ export default {
 		await createInteractionMenuSession(
 			interaction,
 			async (_reason, menuSession) => {
+				if (pages.length === 0) {
+					return {
+						content: formatters.italic('No pins on this channel'),
+					};
+				}
+
 				if (pages.length > 1) {
 					menuSession.onButtonInteraction({
 						button: new ButtonBuilder()
