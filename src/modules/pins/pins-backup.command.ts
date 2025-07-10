@@ -33,6 +33,9 @@ export default {
 	async execute(interaction) {
 		const channel =
 			interaction.options.getChannel('channel') ?? interaction.channel;
+		const ephemeral =
+			interaction.options.getBoolean('ephemeral', /* required: */ false) ??
+			true;
 
 		if (!channel || !('isTextBased' in channel) || !channel.isTextBased()) {
 			return;
@@ -118,7 +121,8 @@ export default {
 				return {
 					content: responseLines.slice(fromLine, toLine).join('\n'),
 				};
-			}
+			},
+			{ ephemeral }
 		);
 	},
 } satisfies SlashCommand<ChatInputCommandInteraction>;
