@@ -80,12 +80,19 @@ export type ContextMenuCommand<
 };
 
 export type ModalId<T extends string> = {
-	type: T;
 	timestamp: number;
+	type: T;
 };
 
+export type ButtonId<T extends string> = {
+	session: number;
+	type: T;
+};
+
+export type ButtonInteractionHandler = { remove(): void };
+
 export type Module = {
-	readonly slashCommands?: SlashCommand[];
 	readonly contextMenuCommands?: ContextMenuCommand[];
 	readonly events?: Event[];
+	readonly slashCommands?: SlashCommand[];
 };
