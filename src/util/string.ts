@@ -1,3 +1,5 @@
+export const MAX_MESSAGE_CHARACTER_LENGTH = 2_000;
+
 export const ellipsis = (text: string, maxLength: number, ellipsis = '…') => {
 	const maxTotalLength = maxLength - ellipsis.length;
 	return text.length > maxTotalLength
